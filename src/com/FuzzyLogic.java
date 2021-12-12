@@ -9,6 +9,7 @@ public class FuzzyLogic {
     int ExperienceLevel;
     Vector<pair> Projectfund_FuzzySets = new Vector<pair>();
     Vector<pair> ExperienceLevel_FuzzySets =new Vector<pair>();
+    Vector<pair> Risk_FuzzySets =new Vector<pair>();
 
     public FuzzyLogic(int projectFund, int ExperienceLevel) {
         this.projectFund = projectFund;
@@ -23,9 +24,14 @@ public class FuzzyLogic {
         Projectfund_FuzzySets.add(new pair("High",new ArrayList<Integer>(Arrays.asList(70,90,100,100)),output));
 
         output = new ArrayList<Double>(Arrays.asList(0.0,1.0,0.0));
-        ExperienceLevel_FuzzySets.add(new pair("beginner",new ArrayList<Integer>(Arrays.asList(0,15,30)),output));
-        ExperienceLevel_FuzzySets.add(new pair("intermediate",new ArrayList<Integer>(Arrays.asList(15,30,45)),output));
-        ExperienceLevel_FuzzySets.add(new pair("expert",new ArrayList<Integer>(Arrays.asList(30,60,60)),output));
+        ExperienceLevel_FuzzySets.add(new pair("Beginner",new ArrayList<Integer>(Arrays.asList(0,15,30)),output));
+        ExperienceLevel_FuzzySets.add(new pair("Intermediate",new ArrayList<Integer>(Arrays.asList(15,30,45)),output));
+        ExperienceLevel_FuzzySets.add(new pair("Expert",new ArrayList<Integer>(Arrays.asList(30,60,60)),output));
+
+        output = new ArrayList<Double>(Arrays.asList(0.0,1.0,0.0));
+        Risk_FuzzySets.add(new pair("Low",new ArrayList<Integer>(Arrays.asList(0,25,50)),output));
+        Risk_FuzzySets.add(new pair("Normal",new ArrayList<Integer>(Arrays.asList(25,50,75)),output));
+        Risk_FuzzySets.add(new pair("High",new ArrayList<Integer>(Arrays.asList(50,100,100)),output));
     }
 
     public Double LineEq(int input, int x1, int x2, Double y1, Double y2){
@@ -72,11 +78,7 @@ public class FuzzyLogic {
     public void performFL(){
         ConstructFuzzySets();
         Vector<Double> membershipForFund = Fuzzifiction(projectFund,Projectfund_FuzzySets);
-        System.out.println(membershipForFund.size());
         Vector<Double> membershipForExp = Fuzzifiction(ExperienceLevel,ExperienceLevel_FuzzySets);
-        for(int i=0; i<membershipForExp.size(); i++){
-            System.out.println(membershipForExp.get(i));
-        }
         Inference();
         DeFuzzifiction();
 
