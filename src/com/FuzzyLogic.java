@@ -76,8 +76,6 @@ public class FuzzyLogic {
                 Math.max(experienceLevelMembership.get("Intermediate"), experienceLevelMembership.get("Beginner")));
         Rules.put("Normal", normal);
 
-        //Double high1 = projectFundMembership.get("Very Low");
-        //Double high2 = Math.min(projectFundMembership.get("Low"), experienceLevelMembership.get("Beginner"));
         Double high = Math.max(projectFundMembership.get("Very Low"),
                 Math.min(projectFundMembership.get("Low"), experienceLevelMembership.get("Beginner")));
         Rules.put("High", high);
@@ -87,16 +85,13 @@ public class FuzzyLogic {
 
     public Double DeFuzzification(HashMap<String, Double> FinalRules) {
         Double sumLower = 0.0, sumUpper = 0.0, centroid = 0.0;
-
         for (tuple fuzzySet : Risk_FuzzySets) {
             centroid = fuzzySet.set.stream().mapToDouble(a -> a).sum() / fuzzySet.set.size();
             sumUpper += centroid * FinalRules.get(fuzzySet.name);
         }
-
         for (Double val : FinalRules.values()) {
             sumLower += val;
         } 
-
         return sumUpper / sumLower;
     }
 
@@ -107,18 +102,14 @@ public class FuzzyLogic {
         HashMap<String, Double> FinalRules = Inference(projectFundMembership, experienceLevelMembership);
         Double output = DeFuzzification(FinalRules);
         HashMap<String, Double> outputMemberShip = Fuzzification(output, Risk_FuzzySets);
-
         Double max = -1.0;
         String result = "";
-
         for (String key : outputMemberShip.keySet()) {
             if(outputMemberShip.get(key) > max){
                 max = outputMemberShip.get(key);
                 result = key;
             }
-            System.out.println(key + " " + outputMemberShip.get(key));
         }
-
         System.out.println("Predicted Value (Risk) = " + output);
         System.out.println("Risk will be " + result);
     }
